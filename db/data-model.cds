@@ -4,55 +4,68 @@ using {
     managed,
     cuid,
     Currency,
-    sap.common
+    Country,
+    sap.common,
+    sap.common.CodeList
 } from '@sap/cds/common';
 
 entity Roles {
-    key role        : String;
+    key role        : String(3);
         description : String;
 }
 
 entity Users_Role_Assign {
-    key user : String;
-        role : Association to Roles
+    key userid : String(30);
+        role   : Association to Roles
 }
 
 entity User_Approve_Maintain {
-    key userid    : String;
-    key managerid : String;
+    key userid    : String(30);
+    key managerid : String(30);
 }
 
-entity Vendor_List_1 : managed {
-    key manufacturerCode          : String(10) @description : 'Manufacturer Code'  @sap.label       : 'Manufacturer Code'
-                                               @sap.text    : 'manufacturerCodeDesc';
-    key localManufacturerCode     : String(10) @description : 'Local Manufacturer'  @sap.label      : 'Local Manufacturer'
-                                               @sap.text    : 'localManufacturerCodeDesc';
-    key country                   : String(3)  @description : 'Country'  @sap.label                 : 'Country'
-                                               @sap.text    : 'countryDesc';
-    key uuid                      : UUID;
-        manufacturerCodeDesc      : String(35) @description : 'Manufacturer Desc'  @sap.label       : 'Manufacturer Desc';
-        localManufacturerCodeDesc : String(35) @description : 'Local Manufacturer Desc'  @sap.label : 'Local Manufacturer Desc';
-        countryDesc               : String(15) @description : 'Country Desc'  @sap.label            : 'Country Desc';
-        initiator                 : String     @description : 'Initiator'  @sap.label               : 'Initiator';
-        approver                  : String     @description : 'Approver'  @sap.label                : 'Approver';
-        Status                    : String(10) @description : 'Status'  @sap.label                  : 'Status';
+entity Vendor_List : managed {
+    key manufacturerCode          : String(10);
+    key localManufacturerCode     : String(10);
+        // @Consumption.filter.hidden : true
+    key countryCode               : String(3);
+        countryDesc               : String;
+        uuid                      : UUID;
+        manufacturerCodeDesc      : String(35);
+        localManufacturerCodeDesc : String(35);
+        initiator                 : String;
+        approver                  : String;
+        status                    : String(10);
+// to_status                 : Association to statusList;
 }
 
-entity Pricing_Conditions_1 : managed {
-    key ManufacturerCode     : String(10)    @description : 'Manufacturer Code'  @sap.label        : 'Manufacturer Code'
-                                             @sap.text    : 'manufacturerCodeDesc';
-    key Country              : String(3)     @description : 'Country'  @sap.label                  : 'Country'
-                                             @sap.text    : 'countryDesc';
-    key uuid                 : UUID;
-        manufacturerCodeDesc : String(35)    @description : 'Manufacturer Desc'  @sap.label        : 'Manufacturer Desc';
-        countryDesc          : String(15)    @description : 'Country Desc'  @sap.label             : 'Country Desc';
-        LocalCurrency        : String(5)     @description : 'Local Currency'  @sap.label           : 'Local Currency';
-        ExchangeRate         : Decimal(4, 2) @description : 'Exchange Rate'  @sap.label            : 'Exchange Rate';
-        CountryFactor        : Decimal(4, 2) @description : 'Country Factor'  @sap.label           : 'Country Factor';
-        ValidityStart        : Date          @description : 'Validity Start Date'  @sap.label      : 'Validity Start Date';
-        ValidityEnd          : Date          @description : 'Validity End Date'  @sap.label        : 'Validity End Date';
-        initiator            : String        @description : 'Initiator'  @sap.label                : 'Initiator';
-        approver             : String        @description : 'Approver'  @sap.label                 : 'Approver';
-        ld_initiator         : String        @description : 'Local Delivery Initiator'  @sap.label : 'Local Delivery Initiator';
-        Status               : String(10)    @description : 'Status'  @sap.label                   : 'Status';
+entity Pricing_Conditions : managed {
+    key manufacturerCode     : String(10);
+        // key country              : String(3);
+        // @Consumption.filter.hidden : true
+        // key countryCode          : Association to countriesCodeList;
+    key countryCode          : String(3);
+        countryDesc          : String;
+        uuid                 : UUID;
+        manufacturerCodeDesc : String(35);
+        localCurrency        : String(3);
+        exchangeRate         : Decimal(4, 2);
+        countryFactor        : Decimal(4, 2);
+        validityStart        : Date;
+        validityEnd          : Date;
+        initiator            : String;
+        approver             : String;
+        ld_initiator         : String;
+        // to_status            : Association to statusList;
+        status               : String(10);
+}
+
+entity statusList {
+    key code : String(10);
+}
+
+
+entity countriesCodeList {
+    key code : String(3) @description : 'Country Code';
+        desc : String    @description : 'Description';
 }
