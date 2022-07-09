@@ -1,4 +1,5 @@
-const cds = require('@sap/cds')
+const cds = require('@sap/cds');
+const createNoti = require('./createNotification');
 module.exports = async function () {
     const db = await cds.connect.to('db')
     const {
@@ -26,6 +27,12 @@ module.exports = async function () {
         var logOnUser = req.user.id;
         req.data.initiator = req.user.id;
         req.data.uuid = cds.utils.uuid();
+        createNoti.mainPayload({
+            product: "Srinivas",
+            category: "Reddy",
+            stock: "100",
+            recipients: ["b.b.srinivasa.reddy@accenture.com", "divya.emuri@accenture.com"]
+        });
         return req;
     });
 
@@ -37,4 +44,28 @@ module.exports = async function () {
         return req;
     });
 
+    // this.after("INSERT", "VendorList", async (req, next) => {
+    //     var logOnUser = req.user.id;
+    //     req.data.initiator = req.user.id;
+    //     try {
+    //         // result = await SELECT.from(User_Approve_Maintain).where({ userid: req.user.id });
+    //         // if (result.length > 0 && result[0].managerid !== "") {
+    //         //     req.data.approver = result[0].managerid;
+    //         //     req.data.initiator = req.user.id;
+    //         //     req.data.Status = "Pending";
+    //         // } else {
+    //         //     req.error(500, "Approver not maintained for the user: " + req.user.id);
+    //         // }
+    //         // createNoti.mainPayload({
+    //         //     product: "Srinivas",
+    //         //     category: "Reddy",
+    //         //     stock: "100",
+    //         //     recipients: ["b.b.srinivasa.reddy@accenture.com", "divya.emuri@accenture.com"]
+    //         // });
+    //     } catch (err) {
+
+    //     }
+    //     // req.data.uuid = cds.uti``ls.uuid();
+    //     return req;
+    // });
 }

@@ -33,3 +33,7 @@ mta_archives/
 mrobe/db/.env
 # auto generated wildcard
 mrobe/.env
+# auto generated wildcard
+Notifications/.env
+# auto generated wildcard
+mrobe/.env1
