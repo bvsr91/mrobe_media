@@ -37,3 +37,6 @@ mrobe/.env
 Notifications/.env
 # auto generated wildcard
 mrobe/.env1
+
+.env
+.env1
