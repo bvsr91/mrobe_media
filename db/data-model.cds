@@ -15,13 +15,14 @@ entity Roles {
 }
 
 entity Users_Role_Assign {
-    key userid : String(30);
-        role   : Association to Roles
+    key userid  : String;
+        mail_id : String;
+        role    : Association to Roles
 }
 
 entity User_Approve_Maintain {
-    key userid    : String(30);
-    key managerid : String(30);
+    key userid    : String;
+    key managerid : String;
 }
 
 entity Vendor_List : managed {
@@ -58,6 +59,22 @@ entity Pricing_Conditions : managed {
         ld_initiator         : String;
         // to_status            : Association to statusList;
         status               : String(10);
+}
+
+entity pricingNotifications : managed {
+    key uuid               : UUID;
+        approvedDate       : Date;
+        status             : String(10);
+        Pricing_Conditions : Association to Pricing_Conditions;
+        ref_id             : String(36);
+}
+
+entity vendorNotifications : managed {
+    key uuid         : UUID;
+        approvedDate : Date;
+        status       : String(10);
+        Vendor_List  : Association to Vendor_List;
+        ref_id       : String(36);
 }
 
 entity statusList {

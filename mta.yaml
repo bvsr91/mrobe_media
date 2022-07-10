@@ -19,7 +19,6 @@ modules:
       buildpack: nodejs_buildpack
     build-parameters:
       builder: npm-ci
-      ignore: ["default-env.json", ".env", ".env1"]
   - name: mrobe-db-deployer
     type: hdb
     path: db
@@ -27,8 +26,6 @@ modules:
       - name: mrobe-db-hdi-container
     parameters:
       buildpack: nodejs_buildpack
-    build-parameters:
-      ignore: ["default-env.json", ".env", ".env1"]
   - name: mrobe-approuter
     type: approuter.nodejs
     path: mrobe-approuter

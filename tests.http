@@ -1,10 +1,12 @@
+
+
 ## POST
-POST http://localhost:4004/MroSrv/PricingConditions
+POST http://localhost:4004/MroSrv/VendorList
 Content-Type: application/json;IEEE754Compatible=true
 
 {
-    "manufacturerCode":"1000101",
-    "countryCode":"IN",
-    "countryDesc":"India",
-    "manufacturerCodeDesc":"Test1"
+    "manufacturerCode":"100053",
+    "localManufacturerCode":"433432",
+    "countryCode":"IN"
+
 }

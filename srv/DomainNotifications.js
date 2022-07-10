@@ -1,7 +1,7 @@
 const { NotificationService } = require("./util/NotificationAPI");
 
-const NOTIF_TYPE_KEY = "Test Notification";
-const NOTIF_TYPE_VERSION = "1.0";
+const NOTIF_TYPE_KEY = "PricingApproval_new";
+const NOTIF_TYPE_VERSION = "1.1";
 
 function createNotificationType() {
     return {
@@ -10,25 +10,25 @@ function createNotificationType() {
         Templates: [
             {
                 Language: "en",
-                TemplateSensitive: "Low {{product}} supply ({{stock}} items left)",
-                TemplatePublic: "Ciritical product supply detected",
-                TemplateGrouped: "Limited Product Supply of {{category}}",
+                TemplatePublic: "A new Pricng Request needs your attention!",
+                TemplateSensitive: "Pricing Approval Request for {{manufacturerCode}} and {{countryCode}} from {{from_mail}}",
+                TemplateGrouped: "You have Pricing Request(s) for approval",
                 TemplateLanguage: "Mustache",
-                Subtitle: "{{product}} needs to be reordered"
+                Subtitle: "Pricing Approval"
             }
         ]
     }
 }
 
-function createNotification({ product, category, stock, recipients }) {
+function createNotification({ manufacturerCode, countryCode, from_mail, recipients }) {
 
     return {
-        OriginId: "supply-warn-backend",
+        OriginId: "PricingApproval",
         NotificationTypeKey: NOTIF_TYPE_KEY,
         NotificationTypeVersion: NOTIF_TYPE_VERSION,
         NavigationTargetAction: "display",
-        NavigationTargetObject: "masterDetail",
-        Priority: "High",
+        NavigationTargetObject: "zmro",
+        Priority: "Medium",
         ProviderId: "",
         ActorId: "",
         ActorType: "",
@@ -36,23 +36,23 @@ function createNotification({ product, category, stock, recipients }) {
         ActorImageURL: "",
         Properties: [
             {
-                Key: "product",
+                Key: "manufacturerCode",
                 Language: "en",
-                Value: product,
+                Value: manufacturerCode,
                 Type: "String",
                 IsSensitive: false
             },
             {
-                Key: "category",
+                Key: "countryCode",
                 Language: "en",
-                Value: category,
+                Value: countryCode,
                 Type: "String",
                 IsSensitive: false
             },
             {
-                Key: "stock",
+                Key: "from_mail",
                 Language: "en",
-                Value: stock,
+                Value: from_mail,
                 Type: "String",
                 IsSensitive: false
             }
@@ -61,7 +61,7 @@ function createNotification({ product, category, stock, recipients }) {
     }
 }
 
-async function publishSupplyWarningNotification(notification) {
+async function publishNotification(notification) {
     const notifTypes = await NotificationService.getNotificationTypes();
     const notifType = notifTypes.find(nType => nType.NotificationTypeKey === NOTIF_TYPE_KEY && nType.NotificationTypeVersion === NOTIF_TYPE_VERSION);
     if (!notifType) {
@@ -71,4 +71,4 @@ async function publishSupplyWarningNotification(notification) {
     return await NotificationService.postNotification(createNotification(notification));
 }
 
-module.exports = { publishSupplyWarningNotification };
+module.exports = { publishNotification };

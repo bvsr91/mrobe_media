@@ -1,11 +1,11 @@
-const { publishSupplyWarningNotification } = require("./DomainNotifications");
+const { publishNotification } = require("./DomainNotifications");
 const axios = require("axios");
 require('@sap/xsenv').loadEnv();
 
 module.exports = {
     mainPayload: async function (oObj) {
         try {
-            await publishSupplyWarningNotification(oObj);
+            await publishNotification(oObj);
             console.log("Success");
         } catch (e) {
             if (e.response) {
