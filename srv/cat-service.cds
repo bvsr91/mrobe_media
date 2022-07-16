@@ -2,16 +2,16 @@ using ferrero.mro as my from '../db/data-model';
 
 // @requires : 'authenticated-user'
 // @requires : 'mrobeUser_sc'
-@(restrict : [
-    {
-        grant : 'READ',
-        to    : 'mrobeReadOnly_sc'
-    },
-    {
-        grant : ['*'],
-        to    : 'mrobeUser_sc'
-    }
-])
+// @(restrict : [
+//     {
+//         grant : 'READ',
+//         to    : 'mrobeReadOnly_sc'
+//     },
+//     {
+//         grant : ['*'],
+//         to    : 'mrobeUser_sc'
+//     }
+// ])
 service MroService @(impl : './cat-service.js') @(path : '/MroSrv') {
     // @readonly
     entity Roles                as projection on my.Roles;
@@ -23,14 +23,24 @@ service MroService @(impl : './cat-service.js') @(path : '/MroSrv') {
     entity CountriesCodeList    as projection on my.countriesCodeList;
     entity pricingNotifications as projection on my.pricingNotifications;
     entity VendorNotifications  as projection on my.vendorNotifications;
+    function approvePricing(manufacturerCode : String, countryCode : String) returns String;
 
     // type rejectResult {
     //     manufacturerCode : String;
     //     countryCoe     : String;
     // }
 
-    action rejectPricing(manufacturerCode : String, countryCode : String) returns String;
+    action   rejectPricing(manufacturerCode : String, countryCode : String)  returns String;
 
     @readonly
     entity CheckUserRole        as projection on my.Users_Role_Assign;
+
+    entity MediaFile            as projection on my.MediaFile;
+    entity Media                as projection on my.Media;
+    entity ProductImages        as projection on my.ProductImages;
+    function loadProductImages()                                             returns Boolean;
 }
+
+// service MediaService @(path : '/media') {
+//     entity MediaFile as projection on my.MediaFile;
+// };

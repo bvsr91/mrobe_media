@@ -86,3 +86,34 @@ entity countriesCodeList {
     key code : String(3) @description : 'Country Code';
         desc : String    @description : 'Description';
 }
+
+entity MediaFile : cuid {
+    @Core.MediaType                   : mediaType
+    @Core.ContentDisposition.Filename : fileName
+    content   : LargeBinary;
+    @Core.IsMediaType                 : true
+    mediaType : String;
+    fileName  : String;
+    url       : String;
+};
+
+entity ProductImages {
+    key uuid      : UUID;
+        @Core.MediaType                   : imageType
+        @Core.ContentDisposition.Filename : fileName
+        image     : LargeBinary;
+        imageType : String @Core.IsMediaType;
+        fileName  : String;
+}
+
+entity Media {
+
+    key id              : Integer;
+        @Core.MediaType   : mediaType
+        content         : LargeBinary;
+
+        @Core.IsMediaType : true
+        mediaType       : String;
+        fileName        : String;
+        applicationName : String;
+}
